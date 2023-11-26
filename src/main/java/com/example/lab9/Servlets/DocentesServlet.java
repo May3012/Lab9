@@ -58,7 +58,11 @@ public class DocentesServlet extends HttpServlet {
        Usuario user = (Usuario) httpSession.getAttribute("usuarioLogueado");
        switch (action) {
            case "registrar":
-               // Código para registrar un nuevo docente
+                String name = request.getParameter("first_name");
+                String correo = request.getParameter("email");
+                String contra = request.getParameter("password");
+                docenteDao.registrarDocente(name,correo,contra);
+               response.sendRedirect("DocentesServlet?msg=Creado exitosamente");
                break;
 
            case "editar":
