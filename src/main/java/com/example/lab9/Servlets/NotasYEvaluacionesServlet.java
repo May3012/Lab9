@@ -39,14 +39,10 @@ public class NotasYEvaluacionesServlet extends HttpServlet {
                     view = request.getRequestDispatcher("Evaluaciones/formularioNuevo.jsp");
                     view.forward(request, response);
                     break;
-                /*case "editar":
-                    HttpSession httpSession = request.getSession();
-                    Employee employee = (Employee) httpSession.getAttribute("usuarioLogueado");
-
-
-                    break;
                 case "borrar":
-                */
+                    evaDao.borrarEvaluacion(Integer.parseInt(request.getParameter("id")));
+                    response.sendRedirect("NotasYEvaluacionesServlet?msg=Empleado borrado exitosamente");
+                    break;
                 default:
                     response.sendRedirect("NotasYEvaluacionesServlet");
             }
@@ -65,9 +61,9 @@ public class NotasYEvaluacionesServlet extends HttpServlet {
         try{
         switch (action) {
             case "guardar":
-                String nombre = request.getParameter("nombre");
+                String nombre = request.getParameter("first_name");
                 String codigo = request.getParameter("codigo");
-                String correo = request.getParameter("correo");
+                String correo = request.getParameter("email");
                 int nota = Integer.parseInt(request.getParameter("nota"));
 
                 Curso_has_Docente_Dao cd = new Curso_has_Docente_Dao();
@@ -76,8 +72,6 @@ public class NotasYEvaluacionesServlet extends HttpServlet {
 
                 evaluacionesDao.guardarEvaluacion(nombre,codigo,correo,nota,idCurso,idSemestre);
                 response.sendRedirect("NotasYEvaluacionesServlet?msg=Empleado creado exitosamente");
-                break;
-            case "borrar":
                 break;
         }}catch (SQLException e) {
             e.printStackTrace();

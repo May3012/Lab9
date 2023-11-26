@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class UsuarioDao extends DaoBase {
 
@@ -121,8 +122,8 @@ public class UsuarioDao extends DaoBase {
     }
 
     // Método para obtener la lista de docentes según las condiciones dadas
-    public ArrayList<Docente> listarDocentes(int idDecano) {
-        ArrayList<Docente> listaDocentes = new ArrayList<>();
+    public ArrayList<Usuario> listarDocentes(int idDecano) {
+        ArrayList<Usuario> listaDocentes = new ArrayList<>();
 
         // Implementa la lógica necesaria para obtener la lista de docentes según las condiciones dadas
 

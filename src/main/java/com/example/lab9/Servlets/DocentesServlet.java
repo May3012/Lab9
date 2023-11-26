@@ -1,11 +1,13 @@
 package com.example.lab9.Servlets;
 
+import com.example.lab9.Beans.Usuario;
 import com.example.lab9.Daos.UsuarioDao;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 @WebServlet(name = "DocentesServlet", value = "/DocentesServlet")
 public class DocentesServlet extends HttpServlet {
@@ -15,11 +17,15 @@ public class DocentesServlet extends HttpServlet {
 
         RequestDispatcher view;
         UsuarioDao docenteDao = new UsuarioDao();
+        HttpSession httpSession = request.getSession();
 
+        Usuario user  = (Usuario) httpSession.getAttribute("usuarioLogueado");
+
+        if (user.getRol().getNameRol().equals("Docente")) {
         switch (action) {
             case "listar":
                 // Obtener la lista de docentes según las condiciones dadas
-                ArrayList<Docente> listaDocentes = docenteDao.listarDocentes(idDecano); // Reemplaza idDecano con el valor correcto
+                ArrayList<Usuario> listaDocentes = docenteDao.listarDocentes(user.getIdUsuario()); // Reemplaza idDecano con el valor correcto
                 request.setAttribute("listaDocentes", listaDocentes);
 
                 // Muestra la vista para listar docentes
@@ -35,10 +41,11 @@ public class DocentesServlet extends HttpServlet {
             default:
                 response.sendRedirect("DocentesServlet");
         }
+        }
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+   // @Override
+    /*protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action") == null ? "registrar" : request.getParameter("action");
         DocenteDao docenteDao = new DocenteDao();
 
@@ -69,5 +76,5 @@ public class DocentesServlet extends HttpServlet {
             response.getWriter().println("Error en la base de datos.");
         }
     }
-    }
+    }*/
 }

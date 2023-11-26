@@ -37,11 +37,11 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="email">Correo</label>
-                    <input type="text" class="form-control form-control-sm" id="email" name="email">
+                    <input type="text" class="form-control form-control-sm" id="email" name="email" required>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="nota">Nota</label>
-                    <input type="text" class="form-control form-control-sm" id="nota" name="nota">
+                    <input type="text" class="form-control form-control-sm" id="nota" name="nota" required>
                 </div>
 
                 <div class="mb-3">

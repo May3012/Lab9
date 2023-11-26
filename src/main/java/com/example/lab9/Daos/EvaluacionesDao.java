@@ -117,17 +117,18 @@ public class EvaluacionesDao extends DaoBase {
         }
     }
 
-    public void borrarEmpleado(int employeeId) throws SQLException {
+    */
+    public void borrarEvaluacion(int idEvaluacion) {
         String sql = "DELETE FROM evaluaciones WHERE idevaluaciones = ?";
         try (Connection conn = this.getConection();
              PreparedStatement pstmt = conn.prepareStatement(sql);) {
-            pstmt.setInt(1, employeeId);
+            pstmt.setInt(1, idEvaluacion);
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
 
-
-*/
 
 }

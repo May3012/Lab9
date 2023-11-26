@@ -25,7 +25,7 @@ public class LogingServlet extends HttpServlet {
         UsuarioDao usuarioDao = new UsuarioDao();
         if (usuarioDao.validarUsuarioPassword(username, password)) {
             System.out.println("Usuario y contraseña válidos");
-            Usuario usuario = usuarioDao.obtenerUsuario("ola2@pucp.edu.pe");
+            Usuario usuario = usuarioDao.obtenerUsuario("profe@pucp.edu.pe");
             HttpSession httpSession = request.getSession();
             httpSession.setAttribute("usuarioLogueado", usuario);
 
