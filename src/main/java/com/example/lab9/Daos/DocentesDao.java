@@ -15,7 +15,7 @@ public class DocentesDao extends DaoBase {
 
     public void registrarDocente(String nombre, String correo, String password) {
         String sql = "INSERT INTO usuario (nombre, correo, password, idrol,ultimo_ingreso,cantidad_ingresos, fecha_registro, fecha_edicion) " +
-                "VALUES (?, ?, ?, 4,NOW(),0, NOW(), NOW())";
+                "VALUES (?, ?, sha2(?,256), 4,NOW(),0, NOW(), NOW())";
 
         try (Connection conn = this.getConection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

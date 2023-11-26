@@ -16,7 +16,7 @@ public class UsuarioDao extends DaoBase {
 
         String sql = "select u.idUsuario, u.nombre,u.correo,r.idrol, r.nombre from usuario u\n" +
                 "inner join lab_9.rol r on (u.idrol= r.idrol)\n" +
-                "where correo = ? and password = ?";
+                "where correo = ? and password = sha2(?,256)";
 
         boolean exito = false;
 
