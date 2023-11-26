@@ -92,8 +92,8 @@
         </div>
         <% } %>
         <div class="form-floating">
-            <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com"
-                   name="username">
+            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com"
+                   name="email">
             <label for="floatingInput">Correo</label>
         </div>
         <div class="form-floating">

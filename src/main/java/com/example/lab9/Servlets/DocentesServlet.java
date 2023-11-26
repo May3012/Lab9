@@ -1,12 +1,14 @@
 package com.example.lab9.Servlets;
 
 import com.example.lab9.Beans.Usuario;
+import com.example.lab9.Daos.DocentesDao;
 import com.example.lab9.Daos.UsuarioDao;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 @WebServlet(name = "DocentesServlet", value = "/DocentesServlet")
@@ -16,65 +18,67 @@ public class DocentesServlet extends HttpServlet {
         String action = request.getParameter("action") == null ? "listar" : request.getParameter("action");
 
         RequestDispatcher view;
-        UsuarioDao docenteDao = new UsuarioDao();
+        DocentesDao docenteDao = new DocentesDao();
         HttpSession httpSession = request.getSession();
+        Usuario user = (Usuario) httpSession.getAttribute("usuarioLogueado");
 
-        Usuario user  = (Usuario) httpSession.getAttribute("usuarioLogueado");
-
-        if (user.getRol().getNameRol().equals("Docente")) {
-        switch (action) {
-            case "listar":
-                // Obtener la lista de docentes según las condiciones dadas
-                ArrayList<Usuario> listaDocentes = docenteDao.listarDocentes(user.getIdUsuario()); // Reemplaza idDecano con el valor correcto
-                request.setAttribute("listaDocentes", listaDocentes);
-
-                // Muestra la vista para listar docentes
-                view = request.getRequestDispatcher("ruta_de_tu_vista.jsp"); // Reemplaza con la ruta correcta de tu vista
-                view.forward(request, response);
-                break;
-            case "agregar":
-                // Muestra la vista para agregar docentes
-                view = request.getRequestDispatcher("ruta_de_tu_vista.jsp"); // Reemplaza con la ruta correcta de tu vista
-                view.forward(request, response);
-                break;
-            // Agrega otros casos según sea necesario (editar, eliminar, etc.)
-            default:
-                response.sendRedirect("DocentesServlet");
-        }
-        }
-    }
-
-   // @Override
-    /*protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("action") == null ? "registrar" : request.getParameter("action");
-        DocenteDao docenteDao = new DocenteDao();
-
-        try {
+        if (user.getRol().getNameRol().equals("Decano")) {
             switch (action) {
-                case "registrar":
-                    // Obtener parámetros del formulario
-                    String nombre = request.getParameter("nombre");
-                    String correo = request.getParameter("correo");
-                    String password = request.getParameter("password");
-
-                    // Registrar el docente
-                    docenteDao.registrarDocente(nombre, correo, password);
-                    response.sendRedirect("DocentesServlet?action=listar");
+                case "listar":
+                    ArrayList<Usuario> listaDocentes = docenteDao.listarDocentes(user.getIdUsuario());
+                    request.setAttribute("listaDocentes", listaDocentes);
+                    view = request.getRequestDispatcher("Docentes/lista.jsp");
+                    view.forward(request, response);
                     break;
-                case "eliminar":
-                    // Obtener el ID del docente a eliminar desde el formulario
-                    int idDocenteEliminar = Integer.parseInt(request.getParameter("idDocente"));
+                case "agregar":
+                    view = request.getRequestDispatcher("Docentes/FormularioNuevo.jsp");
+                    view.forward(request, response);
+                    break;
+                case "editar":
+                    int idDocente = Integer.parseInt(request.getParameter("id"));
+                    Usuario docente = docenteDao.obtenerDocentePorId(idDocente);
+                    request.setAttribute("usuario",docente);
+                    view = request.getRequestDispatcher("Docentes/FormularioEditar.jsp");
+                    view.forward(request, response);
 
-                    // Eliminar el docente
+                    break;
+                case "borrar":
+                    int idDocenteEliminar = Integer.parseInt(request.getParameter("id"));
                     docenteDao.eliminarDocente(idDocenteEliminar);
                     response.sendRedirect("DocentesServlet?action=listar");
-                    break;
-                // Agrega otros casos según sea necesario (editar, etc.)
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            response.getWriter().println("Error en la base de datos.");
         }
     }
-    }*/
+
+   @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action") == null ? "registrar" : request.getParameter("action");
+        DocentesDao docenteDao = new DocentesDao();
+       HttpSession httpSession = request.getSession();
+       Usuario user = (Usuario) httpSession.getAttribute("usuarioLogueado");
+       switch (action) {
+           case "registrar":
+               // Código para registrar un nuevo docente
+               break;
+
+           case "editar":
+               String nuevoNombre = request.getParameter("nombre");
+               String idDocenteParam = request.getParameter("docente_id");
+
+               if (idDocenteParam != null && !idDocenteParam.isEmpty()) {
+                   int idDocente = Integer.parseInt(idDocenteParam);
+                   if (nuevoNombre != null) {
+                       docenteDao.editarNombreDocente(idDocente, nuevoNombre);
+                       response.sendRedirect("DocentesServlet?action=listar");
+                   } else {
+                       response.sendRedirect("DocentesServlet?action=listar");
+                   }
+               } else {
+                   response.sendRedirect("DocentesServlet?action=listar");
+               }
+               break;
+       }
+
+    }
 }
+

@@ -13,7 +13,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Nuevo empleado</title>
+    <title>Nuevo Evaluación</title>
     <jsp:include page="../includes/headCss.jsp"></jsp:include>
 </head>
 <body>
@@ -24,7 +24,7 @@
     <div class="row mb-4">
         <div class="col"></div>
         <div class="col-md-6">
-            <h1 class='mb-3'>Nuevo usuario</h1>
+            <h1 class='mb-3'>Nuevo Evaluación</h1>
             <hr>
             <form method="POST" action="NotasYEvaluacionesServlet">
                 <div class="mb-3">

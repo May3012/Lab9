@@ -1,14 +1,7 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: HP
-  Date: 25/11/2023
-  Time: 19:26
-  To change this template use File | Settings | File Templates.
---%>
 <%@page import="java.util.ArrayList" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ page import="com.example.lab9.Beans.Usuario" %>
-<jsp:useBean id="usuario" type="com.example.lab9.Beans.Usuario" scope="request"/>
+<jsp:useBean id="curso" type="com.example.lab9.Beans.Curso" scope="request"/>
 
 
 <!DOCTYPE html>
@@ -25,9 +18,9 @@
     <div class="row mb-4">
         <div class="col-md-3"></div>
         <div class="col-md-6">
-            <h1 class='mb-3'>Editar Docente</h1>
-            <form method="POST" action="<%=request.getContextPath()%>/DocentesServlet?action=editar">
-                <input type="hidden" name="docente_id" value="<%= usuario.getIdUsuario()%>"/>
+            <h1 class='mb-3'>Editar Curso</h1>
+            <form method="POST" action="<%=request.getContextPath()%>/CursoServlet?action=editar">
+                <input type="hidden" name="curso_id" value="<%= curso.getIdCurso()%>"/>
                 <div class="mb-3">
                     <label class="form-label" for="nombre">Nombre</label>
                     <input type="text" class="form-control form-control-sm" id="nombre" name="nombre">

@@ -24,11 +24,11 @@
     </jsp:include>
     <div class="row mb-5 mt-4">
         <div class="col-md-7">
-            <h1>Lista de empleados</h1>
+            <h1>Lista de Evaluaciones</h1>
         </div>
         <div class="col-md-5 col-lg-4 ms-auto my-auto text-md-end">
             <a href="<%= request.getContextPath()%>/NotasYEvaluacionesServlet?action=agregar" class="btn btn-primary">Agregar
-                nuevo empleado</a>
+                Nueva Evaluación</a>
         </div>
     </div>
     <% if (request.getParameter("msg") != null) {%>
@@ -55,16 +55,16 @@
         <thead>
         <tr>
             <th>#</th>
-            <th>Employee</th>
-            <th>Email</th>
-            <th>Job ID</th>
-            <th>Salary</th>
-            <th>Commision</th>
-            <th>Manager ID</th>
-            <th>Department ID</th>
+            <th>Evaluación ID</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Nota</th>
+            <th>Semestre</th>
+            <th>Fecha de Registro</th>
+            <th>Fecha de Edición</th>
             <% if(usuarioLogueado != null && usuarioLogueado.getIdUsuario() > 0) {%>
-            <th></th>
-            <th></th>
+            <th>Editar</th>
+            <th>Borrar</th>
             <% } %>
         </tr>
         </thead>

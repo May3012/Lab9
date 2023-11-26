@@ -30,7 +30,6 @@ public class NotasYEvaluacionesServlet extends HttpServlet {
             switch (action) {
                 case "lista":
                     request.setAttribute("listaEvaluaciones", evaDao.listarEvaluaciones(user.getIdUsuario()));
-
                     view = request.getRequestDispatcher("Evaluaciones/lista.jsp");
                     view.forward(request, response);
                     break;
@@ -39,8 +38,16 @@ public class NotasYEvaluacionesServlet extends HttpServlet {
                     view = request.getRequestDispatcher("Evaluaciones/formularioNuevo.jsp");
                     view.forward(request, response);
                     break;
+                case "editar":
+                    int idEvaluacion = Integer.parseInt(request.getParameter("id"));
+                    Evaluacion eva = evaDao.obtenerEvaluacion(user.getIdUsuario());
+                    request.setAttribute("evaluacion",eva);
+                    view = request.getRequestDispatcher("Evaluaciones/formularioEditar.jsp");
+                    view.forward(request, response);
+                    break;
                 case "borrar":
                     evaDao.borrarEvaluacion(Integer.parseInt(request.getParameter("id")));
+
                     response.sendRedirect("NotasYEvaluacionesServlet?msg=Empleado borrado exitosamente");
                     break;
                 default:
@@ -72,6 +79,27 @@ public class NotasYEvaluacionesServlet extends HttpServlet {
 
                 evaluacionesDao.guardarEvaluacion(nombre,codigo,correo,nota,idCurso,idSemestre);
                 response.sendRedirect("NotasYEvaluacionesServlet?msg=Empleado creado exitosamente");
+                break;
+
+            case "editar":
+                String id_eva = request.getParameter("evaluacion_id");
+                String nuevoNombre = request.getParameter("nombre");
+                String cod = request.getParameter("cod");
+                String ema = request.getParameter("ema");
+                String notaa = request.getParameter("notaa");
+
+                if (id_eva != null && !id_eva.isEmpty()) {
+                    int idDocente = Integer.parseInt(id_eva);
+                    int notaaa = Integer.parseInt(notaa);
+                    if (nuevoNombre != null && cod != null && ema!=null && notaa!=null ) {
+                        evaluacionesDao.editarEvaluacion(idDocente, nuevoNombre,cod,ema,notaaa);
+                        response.sendRedirect("NotasYEvaluacionesServlet?action=listar");
+                    } else {
+                        response.sendRedirect("NotasYEvaluacionesServlet?action=listar");
+                    }
+                } else {
+                    response.sendRedirect("NotasYEvaluacionesServlet?action=listar");
+                }
                 break;
         }}catch (SQLException e) {
             e.printStackTrace();

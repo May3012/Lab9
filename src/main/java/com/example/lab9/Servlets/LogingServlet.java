@@ -17,25 +17,22 @@ public class LogingServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username");
+        String username = request.getParameter("email");
         String password = request.getParameter("password");
-        String email = request.getParameter("email");
         System.out.println("username: " + username + " | password: " + password);
 
         UsuarioDao usuarioDao = new UsuarioDao();
         if (usuarioDao.validarUsuarioPassword(username, password)) {
             System.out.println("Usuario y contraseña válidos");
-            Usuario usuario = usuarioDao.obtenerUsuario("profe@pucp.edu.pe");
+            Usuario usuario = usuarioDao.obtenerUsuario(username);
             HttpSession httpSession = request.getSession();
             httpSession.setAttribute("usuarioLogueado", usuario);
 
-            // Redirigir a la página correspondiente según el tipo de cuenta
             if ("Decano".equals(usuario.getRol().getNameRol())) {
                 response.sendRedirect(request.getContextPath() + "/DocentesServlet");
             } else if ("Docente".equals(usuario.getRol().getNameRol())) {
                 response.sendRedirect(request.getContextPath() + "/NotasYEvaluacionesServlet");
             } else {
-                // Otros tipos de cuenta o redirección por defecto
                 response.sendRedirect(request.getContextPath() + "/LogingServlet");
             }
         } else {

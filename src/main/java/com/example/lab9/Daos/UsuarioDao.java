@@ -93,54 +93,5 @@ public class UsuarioDao extends DaoBase {
         return usuario;
     }
 
-    //Para registrar docentes
-    public void registrarDocente(String nombre, String correo, String password) throws SQLException {
-        String sql = "INSERT INTO usuario (nombre, correo, password, idrol,ultimo_ingreso,cantidad_ingresos fecha_registro, fecha_edicion) " +
-                "VALUES (?, ?, ?, (SELECT idrol FROM rol WHERE nombre = 'Docente'),NOW(),0, NOW(), NOW())";
-
-        try (Connection conn = this.getConection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, nombre);
-            pstmt.setString(2, correo);
-            pstmt.setString(3, password);
-            pstmt.executeUpdate();
-        }
-    }
-
-    // Método para editar el nombre de un docente
-    public void editarNombreDocente(int idDocente, String nuevoNombre) throws SQLException {
-        String sql = "UPDATE usuario SET nombre = ? WHERE idusuario = ? AND idrol = (SELECT idrol FROM rol WHERE nombre = 'Docente')";
-
-        try (Connection conn = this.getConection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, nuevoNombre);
-            pstmt.setInt(2, idDocente);
-            pstmt.executeUpdate();
-        }
-    }
-
-    // Método para obtener la lista de docentes según las condiciones dadas
-    public ArrayList<Usuario> listarDocentes(int idDecano) {
-        ArrayList<Usuario> listaDocentes = new ArrayList<>();
-
-        // Implementa la lógica necesaria para obtener la lista de docentes según las condiciones dadas
-
-        return listaDocentes;
-    }
-
-    // Método para eliminar un docente
-    public void eliminarDocente(int idDocente) throws SQLException {
-        String sql = "DELETE FROM usuario WHERE idusuario = ? AND idrol = (SELECT idrol FROM rol WHERE nombre = 'Docente')";
-
-        try (Connection conn = this.getConection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, idDocente);
-            pstmt.executeUpdate();
-        }
-    }
-
 
 }
